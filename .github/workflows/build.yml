@@ -1,0 +1,20 @@
+name: Build Android APK
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest
+    container:
+      image: notfl3/cargo-apk:latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build APK
+        run: cargo quad-apk build --release
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Retro-Snake-APK
+          path: target/android-artifacts/release/apk/*.apk
